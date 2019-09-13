@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
 import com.google.api.core.ApiFuture;
@@ -12,6 +13,7 @@ import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.WriteResult;
+import com.target.pm.exception.ProductManagementException;
 import com.target.pm.model.CurrentPrice;
 import com.target.pm.model.ProductSummary;
 import com.target.pm.model.ProductSummaryResponse;
@@ -24,10 +26,17 @@ public class FireBaseRepository {
 	@Autowired
 	private Firestore firestore;
 	
-	public ProductSummaryResponse getProductPrice(String productId, String productName) throws InterruptedException, ExecutionException {
+	private static final String ERROR = "Unable to retrieve product price from firebase.";
+	
+	public ProductSummaryResponse getProductPrice(String productId, String productName)  {
 		ProductSummaryResponse productSummaryResponse = new ProductSummaryResponse();
 		ApiFuture<DocumentSnapshot>  docRef = firestore.collection("productsummary").document(productId).get();
-		Map<String, Object> data = docRef.get().getData();
+		Map<String, Object> data;
+		try {
+			data = docRef.get().getData();
+		} catch (InterruptedException | ExecutionException exception) {
+			throw new ProductManagementException(ERROR,exception,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		productSummaryResponse.setId(productId);
 		productSummaryResponse.setName(productName);
 		CurrentPrice currentPrice = new CurrentPrice();

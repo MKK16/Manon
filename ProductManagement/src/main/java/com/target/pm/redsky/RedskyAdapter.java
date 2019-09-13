@@ -5,8 +5,10 @@ import java.util.HashMap;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.target.pm.exception.ProductManagementException;
 import com.target.pm.firebase.FireBaseRepository;
 import com.target.pm.model.ProductDescriptionResponse;
 import com.target.pm.model.ProductSummaryResponse;
@@ -24,11 +26,17 @@ public class RedskyAdapter implements IRedskyAdapter {
 	
 	@Resource(name = "productionDescriptionMap")
 	private HashMap<String,ProductDescriptionResponse> productionDescriptionMap;
+	
+	private static final String ERROR_MESSAGE = "PM001 - Given Product Id doesn't match with our record";
 
 	@Override
-	public ProductSummaryResponse retrieveProdcuts(String productId) throws Exception {
+	public ProductSummaryResponse retrieveProdcuts(String productId) {
 		ProductDescriptionResponse retrieveProductName = redskyDelegate.retrieveProductName(productId);
-		return fireBaseRepository.getProductPrice(productId,retrieveProductName.getProductName()); 
+		if(null != retrieveProductName ) {
+			return fireBaseRepository.getProductPrice(productId,retrieveProductName.getProductName()); 
+		} else {
+		    throw new ProductManagementException(ERROR_MESSAGE,HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	@Override

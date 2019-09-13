@@ -17,7 +17,7 @@ public class ProductManagementProcessor {
 	@Autowired
 	private IRedskyAdapter redskyAdapter;
 	
-	public ResponseEntity<ProductSummaryResponse> retrieveProductById(String productId) throws Exception {
+	public ResponseEntity<ProductSummaryResponse> retrieveProductById(String productId) {
 		 ProductSummaryResponse retrieveProdcuts = redskyAdapter.retrieveProdcuts(productId);
 		 return new ResponseEntity<ProductSummaryResponse>(retrieveProdcuts,HttpStatus.OK);
 	}

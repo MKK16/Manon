@@ -25,7 +25,7 @@ public class ProductManagementController {
 	
 	@ApiOperation(httpMethod = "GET", value = "Retrieve Products by ID")
 	@GetMapping(value = "/productId/{productId}")
-	public ResponseEntity<ProductSummaryResponse> getProductsById(@PathVariable ("productId") String productId) throws Exception{
+	public ResponseEntity<ProductSummaryResponse> getProductsById(@PathVariable ("productId") String productId){
 		return productManagementProcessor.retrieveProductById(productId);
 		
 	}
