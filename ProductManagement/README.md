@@ -1,6 +1,6 @@
 # ProductManagement REST API
 
-Goal is to create a RESTful service that can retrieve product and price details by ID.
+Developed RESTful service that can retrieve product and price details by ID.
 
 ## Technology Stack
 
