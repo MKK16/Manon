@@ -28,16 +28,16 @@ public class FireBaseRepository {
 	
 	private static final String ERROR = "Unable to retrieve product price from firebase.";
 	
-	public ProductSummaryResponse getProductPrice(String productId, String productName)  {
+	public ProductSummaryResponse getProductPrice(long  productId, String productName)  {
 		ProductSummaryResponse productSummaryResponse = new ProductSummaryResponse();
-		ApiFuture<DocumentSnapshot>  docRef = firestore.collection("productsummary").document(productId).get();
+		ApiFuture<DocumentSnapshot>  docRef = firestore.collection("productsummary").document(Long.toString(productId)).get();
 		Map<String, Object> data;
 		try {
 			data = docRef.get().getData();
 		} catch (InterruptedException | ExecutionException exception) {
 			throw new ProductManagementException(ERROR,exception,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		productSummaryResponse.setId(productId);
+		productSummaryResponse.setId(Long.toString(productId));
 		productSummaryResponse.setName(productName);
 		CurrentPrice currentPrice = new CurrentPrice();
 		currentPrice.setCurrencyCode(data.get("currencyCode").toString());
@@ -46,24 +46,24 @@ public class FireBaseRepository {
 		return productSummaryResponse;
 	}
 
-	public UpdatePriceResponse updatePrice(String productId, UpdatePriceRequest updatePrice) {
+	public UpdatePriceResponse updatePrice(long productId, UpdatePriceRequest updatePrice) {
 		UpdatePriceResponse updatePriceResponse = null;
-        DocumentReference docRef = firestore.collection("productsummary").document(productId);
-        ProductSummary productSummaryData = buildRequest(productId,updatePrice);
+        DocumentReference docRef = firestore.collection("productsummary").document(Long.toString(productId));
+        ProductSummary productSummaryData = buildRequest(updatePrice);
         ApiFuture<WriteResult> result = docRef.set(productSummaryData);
         updatePriceResponse = buildResponse(productId);
         return updatePriceResponse;
       
 	}
 
-	private UpdatePriceResponse buildResponse(String productId) {
+	private UpdatePriceResponse buildResponse(long productId) {
 		UpdatePriceResponse updatePriceResponse = new UpdatePriceResponse();
-		updatePriceResponse.setProductid(productId);
+		updatePriceResponse.setProductid(Long.toString(productId));
 		updatePriceResponse.setMessageText("Successfully Updated");
 		return updatePriceResponse;
 	}
 
-	private ProductSummary buildRequest(String productId, UpdatePriceRequest updatePrice) {
+	private ProductSummary buildRequest(UpdatePriceRequest updatePrice) {
 		ProductSummary productSummary = new ProductSummary();
 		productSummary.setCurrencyCode(updatePrice.getCurrentPrice().getCurrencyCode());
 		productSummary.setPrice(updatePrice.getCurrentPrice().getValue().toString());

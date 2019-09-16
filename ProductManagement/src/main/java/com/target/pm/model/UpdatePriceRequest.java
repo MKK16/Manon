@@ -1,8 +1,11 @@
 package com.target.pm.model;
 
+import javax.validation.Valid;
+
 public class UpdatePriceRequest {
 	
 	private String productName;
+	@Valid
 	private CurrentPrice currentPrice;
 
 	public String getProductName() {

@@ -7,10 +7,10 @@ import com.target.pm.model.UpdatePriceResponse;
 
 public interface IRedskyAdapter {
 	
-	public ProductSummaryResponse retrieveProdcuts(String productId);
+	public ProductSummaryResponse retrieveProdcuts(long  productId);
 
-	public UpdatePriceResponse updatePrice(String productId, UpdatePriceRequest updatePrice);
+	public UpdatePriceResponse updatePrice(long productId, UpdatePriceRequest updatePrice);
 
-	public ProductDescriptionResponse retrieveProducts(String productId);
+	public ProductDescriptionResponse retrieveProducts(long productId);
 
 }

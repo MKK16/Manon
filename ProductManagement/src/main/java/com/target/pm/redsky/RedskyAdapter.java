@@ -30,7 +30,7 @@ public class RedskyAdapter implements IRedskyAdapter {
 	private static final String ERROR_MESSAGE = "PM001 - Given Product Id doesn't match with our record";
 
 	@Override
-	public ProductSummaryResponse retrieveProdcuts(String productId) {
+	public ProductSummaryResponse retrieveProdcuts(long  productId) {
 		ProductDescriptionResponse retrieveProductName = redskyDelegate.retrieveProductName(productId);
 		if(null != retrieveProductName ) {
 			return fireBaseRepository.getProductPrice(productId,retrieveProductName.getProductName()); 
@@ -40,15 +40,15 @@ public class RedskyAdapter implements IRedskyAdapter {
 	}
 
 	@Override
-	public UpdatePriceResponse updatePrice(String productId, UpdatePriceRequest updatePrice) {
+	public UpdatePriceResponse updatePrice(long productId, UpdatePriceRequest updatePrice) {
 		return fireBaseRepository.updatePrice(productId,updatePrice); 
 	}
 
 	@Override
-	public ProductDescriptionResponse retrieveProducts(String productId) {
+	public ProductDescriptionResponse retrieveProducts(long productId) {
 		ProductDescriptionResponse productDescriptionResponse = null;
-		if(productionDescriptionMap.containsKey(productId)) {
-			 productDescriptionResponse = productionDescriptionMap.get(productId);
+		if(productionDescriptionMap.containsKey(Long.toString(productId))) {
+			 productDescriptionResponse = productionDescriptionMap.get(Long.toString(productId));
 		}
 		return productDescriptionResponse;
 	}

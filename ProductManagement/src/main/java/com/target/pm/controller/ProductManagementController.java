@@ -1,5 +1,7 @@
 package com.target.pm.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,22 +27,21 @@ public class ProductManagementController {
 	
 	@ApiOperation(httpMethod = "GET", value = "Retrieve Products by ID")
 	@GetMapping(value = "/productId/{productId}")
-	public ResponseEntity<ProductSummaryResponse> getProductsById(@PathVariable ("productId") String productId){
+	public ResponseEntity<ProductSummaryResponse> getProductsById(@PathVariable ("productId") long productId){
 		return productManagementProcessor.retrieveProductById(productId);
 		
 	}
 	
 	@ApiOperation(httpMethod = "PUT", value = "Update price")
 	@PutMapping(value = "/productId/{productId}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<UpdatePriceResponse> updateProductById(@RequestBody UpdatePriceRequest updatePriceRequest,@PathVariable ("productId") String productId){
+	public ResponseEntity<UpdatePriceResponse> updateProductById(@RequestBody @Valid UpdatePriceRequest updatePriceRequest,@PathVariable ("productId") long productId){
 		return productManagementProcessor.updatePrice(productId,updatePriceRequest);
 		
 	}
 	
-
 	@ApiOperation(httpMethod = "GET", value = "Retrieve Products")
 	@GetMapping(value = "/products/{productId}")
-	public ResponseEntity<ProductDescriptionResponse> getProducts(@PathVariable ("productId") String productId) {
+	public ResponseEntity<ProductDescriptionResponse> getProducts(@PathVariable ("productId") long productId) {
 		return productManagementProcessor.retrieveProducts(productId);
 		
 	}

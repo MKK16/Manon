@@ -21,7 +21,7 @@ public class RedskyDelegate {
 	
 	private static final String ERROR = "Unable to retrieve product name from Redsky service";
 	
-	public ProductDescriptionResponse retrieveProductName(String productId) {
+	public ProductDescriptionResponse retrieveProductName(long  productId) {
 		ProductDescriptionResponse productDescriptionResponse = new ProductDescriptionResponse();
 		try {
 			productDescriptionResponse = restTemplate.getForObject(restClientConfig.getRedskyUrl()+"/"+productId, ProductDescriptionResponse.class);

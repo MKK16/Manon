@@ -17,17 +17,17 @@ public class ProductManagementProcessor {
 	@Autowired
 	private IRedskyAdapter redskyAdapter;
 	
-	public ResponseEntity<ProductSummaryResponse> retrieveProductById(String productId) {
+	public ResponseEntity<ProductSummaryResponse> retrieveProductById(long  productId) {
 		 ProductSummaryResponse retrieveProdcuts = redskyAdapter.retrieveProdcuts(productId);
 		 return new ResponseEntity<ProductSummaryResponse>(retrieveProdcuts,HttpStatus.OK);
 	}
 
-	public ResponseEntity<UpdatePriceResponse> updatePrice(String productId, UpdatePriceRequest updatePrice) {
+	public ResponseEntity<UpdatePriceResponse> updatePrice(long productId, UpdatePriceRequest updatePrice) {
 		 UpdatePriceResponse updatePriceResponse = redskyAdapter.updatePrice(productId,updatePrice);
 		 return new ResponseEntity<UpdatePriceResponse>(updatePriceResponse,HttpStatus.OK);
 	}
 	
-	public ResponseEntity<ProductDescriptionResponse> retrieveProducts(String productId) {
+	public ResponseEntity<ProductDescriptionResponse> retrieveProducts(long productId) {
 		ProductDescriptionResponse retrieveProdcuts = redskyAdapter.retrieveProducts(productId);
 		 return new ResponseEntity<ProductDescriptionResponse>(retrieveProdcuts,HttpStatus.OK);
 	}
